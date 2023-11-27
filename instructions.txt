@@ -32,6 +32,11 @@ Verify ALB listeners
 
 Wait for the ALB deployment, and from copy the DNS and confirm ngnix runs
 
+execute:
+kubectl get pods -n kube-system
+
+confirm pods names like aws-load-balancer-controller-*******
+
 4) Create the ACM certificate
 cd Infrastructure/cloudformation/ssl-certificate
 ./create.sh
@@ -46,3 +51,19 @@ Verify ALB listeners, now it has HTTP 80 and HTTP 443 listener
 HTTP80 will redirect to HTTP 443 automatically
 
 On Route53 create record with name of sample-app (imperatibly has to be this name cos this is what was created on the ALB rule)
+
+6) Create External DNS (this avoids the hassle of the manual work on creating record on Route53 as seen on 5)
+delete sample-app record from Route53
+
+cd Infrastructure/k8s-tooling/external-dns
+./create-irsa.sh
+
+Verify the external-dns-*** pod is running by executing
+
+kubectl get pods
+
+In case the pod shows crashloopbackoff error, proceed with the next:
+
+kubectl logs external-dns-*** pod
+
+if it shows a permission error, delete the pod (it shows redeploy and works well)
