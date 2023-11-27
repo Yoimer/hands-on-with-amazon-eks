@@ -6,7 +6,7 @@ cd scripts-by-chapter
 or
 
 cd hands-on-with-amazon-eks/Infrastructure/eksctl/01-initial-cluster
-eksctl create cluster cluster.yaml
+eksctl create cluster -f cluster.yaml
 
 2) ********************************************************** Install AWS Load Balancer Controller
 
@@ -28,6 +28,8 @@ On IAM look for the role that begins by eksctl-eks-acg-nodegroup-eks-node and at
 cd Infrastructure/k8s-tooling/load-balancer-controller/test
 ./run.sh
 
+Verify ALB listeners
+
 Wait for the ALB deployment, and from copy the DNS and confirm ngnix runs
 
 4) Create the ACM certificate
@@ -36,5 +38,11 @@ cd Infrastructure/cloudformation/ssl-certificate
 
 Verify the ACM certificate is generated on AWS ACM
 
-5) 
+5) Add SSL certificate to the ALB
+cd Infrastructure/k8s-tooling/load-balancer-controller/test
+./run-with-ssl.sh
 
+Verify ALB listeners, now it has HTTP 80 and HTTP 443 listener
+HTTP80 will redirect to HTTP 443 automatically
+
+On Route53 create record with name of sample-app (imperatibly has to be this name cos this is what was created on the ALB rule)
