@@ -1,0 +1,40 @@
+1) ********************************************************** Create Cluster
+
+cd scripts-by-chapter
+./chapter-1.sh
+
+or
+
+cd hands-on-with-amazon-eks/Infrastructure/eksctl/01-initial-cluster
+eksctl create cluster cluster.yaml
+
+2) ********************************************************** Install AWS Load Balancer Controller
+
+cd Infrastructure/k8s-tooling/load-balancer-controller
+./create.sh
+
+On Cloudformation look for aws-load-balancer-iam-policy stack and copy the policy from the output, just like this:
+
+Key = IamPolicyArn
+
+Value = arn:aws:iam::395566946219:policy/aws-load-balancer-iam-policy-iamPolicy-eYfpeLLjFnki
+
+The policy is aws-load-balancer-iam-policy-iamPolicy-eYfpeLLjFnki
+
+On IAM look for the role that begins by eksctl-eks-acg-nodegroup-eks-node and attach the aws-load-balancer-iam-policy-iamPolicy-eYfpeLLjFnki policy
+
+3) ********************************************************** Install app
+
+cd Infrastructure/k8s-tooling/load-balancer-controller/test
+./run.sh
+
+Wait for the ALB deployment, and from copy the DNS and confirm ngnix runs
+
+4) Create the ACM certificate
+cd Infrastructure/cloudformation/ssl-certificate
+./create.sh
+
+Verify the ACM certificate is generated on AWS ACM
+
+5) 
+
