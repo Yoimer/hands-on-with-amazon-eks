@@ -56,6 +56,11 @@ On Route53 create record with name of sample-app (imperatibly has to be this nam
 delete sample-app record from Route53
 
 cd Infrastructure/k8s-tooling/external-dns
+
+Create IAM OIDC for the cluster (necessary to run create-irsa script)
+
+eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=eks-acg
+
 ./create-irsa.sh
 
 Verify the external-dns-*** pod is running by executing
