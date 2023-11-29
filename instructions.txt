@@ -8,20 +8,17 @@ or
 cd hands-on-with-amazon-eks/Infrastructure/eksctl/01-initial-cluster
 eksctl create cluster -f cluster.yaml
 
+confirm nodes are running by typing:
+
+kubectl get nodes
+
 2) ********************************************************** Install AWS Load Balancer Controller
 
 cd Infrastructure/k8s-tooling/load-balancer-controller
-./create.sh
 
-On Cloudformation look for aws-load-balancer-iam-policy stack and copy the policy from the output, just like this:
+eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=eks-acg
 
-Key = IamPolicyArn
-
-Value = arn:aws:iam::395566946219:policy/aws-load-balancer-iam-policy-iamPolicy-eYfpeLLjFnki
-
-The policy is aws-load-balancer-iam-policy-iamPolicy-eYfpeLLjFnki
-
-On IAM look for the role that begins by eksctl-eks-acg-nodegroup-eks-node and attach the aws-load-balancer-iam-policy-iamPolicy-eYfpeLLjFnki policy
+./create-irsa.sh
 
 3) ********************************************************** Install app
 
@@ -52,14 +49,9 @@ HTTP80 will redirect to HTTP 443 automatically
 
 On Route53 create record with name of sample-app (imperatibly has to be this name cos this is what was created on the ALB rule)
 
-6) Create External DNS (this avoids the hassle of the manual work on creating record on Route53 as seen on 5)
-delete sample-app record from Route53
+6) Create External DNS
 
 cd Infrastructure/k8s-tooling/external-dns
-
-Create IAM OIDC for the cluster (necessary to run create-irsa script)
-
-eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=eks-acg
 
 ./create-irsa.sh
 
@@ -72,3 +64,9 @@ In case the pod shows crashloopbackoff error, proceed with the next:
 kubectl logs external-dns-*** pod
 
 if it shows a permission error, delete the pod (it shows redeploy and works well)
+
+Check Route53
+
+confirm the sample-app.******.domainname
+
+sample-app.******.domainname should have https and show the ngnix server.
