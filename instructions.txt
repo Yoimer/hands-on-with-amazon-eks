@@ -70,3 +70,32 @@ Check Route53
 confirm the sample-app.******.domainname
 
 sample-app.******.domainname should have https and show the ngnix server.
+
+7) Install the Book Store application
+
+Create dynamodb tables
+
+Create development-clients dynamodb
+
+cd /hands-on-with-amazon-eks/clients-api/infra/cloudformation
+
+./create-dynamodb-table.sh development
+
+Create development-inventory
+
+cd /hands-on-with-amazon-eks/inventory-api/infra/cloudformation
+
+./create-dynamodb-table.sh development
+
+cd /hands-on-with-amazon-eks/renting-api/infra/cloudformation
+
+./create-dynamodb-table.sh development
+
+check dynamodb tables, it should show:
+
+development-clients
+development-inventory
+development-renting
+development-resources
+
+8) Add AmazonDynamoDBFullAccess policy to the NodeInstanceRole on iam
