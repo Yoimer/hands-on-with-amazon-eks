@@ -99,3 +99,29 @@ development-renting
 development-resources
 
 8) Add AmazonDynamoDBFullAccess policy to the NodeInstanceRole on iam
+
+9) Create deployments
+
+clients-api
+
+cd hands-on-with-amazon-eks/clients-api/infra/helm
+./create.sh
+
+resources-api
+
+cd /hands-on-with-amazon-eks/resource-api/infra/helm
+./create.sh
+
+renting-api
+
+cd /hands-on-with-amazon-eks/renting-api/infra/helm
+./create.sh
+
+inventory-api
+
+cd /hands-on-with-amazon-eks/inventory-api/infra/helm
+./create.sh
+
+front-end
+cd /hands-on-with-amazon-eks/front-end/infra/helm
+./create.sh
