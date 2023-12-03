@@ -16,7 +16,7 @@ kubectl get nodes
 
 cd Infrastructure/k8s-tooling/load-balancer-controller
 
-eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=eks-acg
+eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=eks-acg --approve
 
 ./create-irsa.sh
 
@@ -46,8 +46,6 @@ cd Infrastructure/k8s-tooling/load-balancer-controller/test
 
 Verify ALB listeners, now it has HTTP 80 and HTTP 443 listener
 HTTP80 will redirect to HTTP 443 automatically
-
-On Route53 create record with name of sample-app (imperatibly has to be this name cos this is what was created on the ALB rule)
 
 6) Create External DNS
 
@@ -91,6 +89,10 @@ cd /hands-on-with-amazon-eks/renting-api/infra/cloudformation
 
 ./create-dynamodb-table.sh development
 
+cd /hands-on-with-amazon-eks/resource-api/infra/cloudformation
+
+./create-dynamodb-table.sh development
+
 check dynamodb tables, it should show:
 
 development-clients
@@ -98,9 +100,17 @@ development-inventory
 development-renting
 development-resources
 
-8) Add AmazonDynamoDBFullAccess policy to the NodeInstanceRole on iam
+8) Add AmazonDynamoDBFullAccess policy via irsa
 
-9) Create deployments
+service_account_name="dynamodb-service-account"
+
+eksctl create iamserviceaccount --name ${service_account_name} \
+    --cluster eks-acg \
+    --attach-policy-arn arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess --approve
+
+9) Delete my-group load balancer and myapp Route53 records (to avoid issues with the development load balancer)
+
+10) Create deployments
 
 clients-api
 
@@ -125,3 +135,13 @@ cd /hands-on-with-amazon-eks/inventory-api/infra/helm
 front-end
 cd /hands-on-with-amazon-eks/front-end/infra/helm
 ./create.sh
+
+Check Route53 records. The External DNS makes its job
+
+api.604698758192.realhandsonlabs.net
+bookstore.604698758192.realhandsonlabs.net
+clients-api.604698758192.realhandsonlabs.net
+inventory-api.604698758192.realhandsonlabs.net
+renting-api.604698758192.realhandsonlabs.net
+resource-api.604698758192.realhandsonlabs.net
+
