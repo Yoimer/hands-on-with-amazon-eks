@@ -145,3 +145,12 @@ inventory-api.604698758192.realhandsonlabs.net
 renting-api.604698758192.realhandsonlabs.net
 resource-api.604698758192.realhandsonlabs.net
 
+11) CNI Add-On
+
+Go to EKS, Add-ons, Get more add-ons, Amazon VPC CNI,  get on the override button
+
+cd Infrastructure/k8s-tooling/cni
+./setup.sh
+
+Terminate the EC2's associated with EKS and execute kubectl get pods -n development -o wide
+Wait for the new nodes and check the new ips were associated
