@@ -119,21 +119,21 @@ cd hands-on-with-amazon-eks/clients-api/infra/helm
 
 resources-api
 
-cd /hands-on-with-amazon-eks/resource-api/infra/helm
+cd hands-on-with-amazon-eks/resource-api/infra/helm
 ./create.sh
 
 renting-api
 
-cd /hands-on-with-amazon-eks/renting-api/infra/helm
+cd hands-on-with-amazon-eks/renting-api/infra/helm
 ./create.sh
 
 inventory-api
 
-cd /hands-on-with-amazon-eks/inventory-api/infra/helm
+cd hands-on-with-amazon-eks/inventory-api/infra/helm
 ./create.sh
 
 front-end
-cd /hands-on-with-amazon-eks/front-end/infra/helm
+cd hands-on-with-amazon-eks/front-end/infra/helm
 ./create.sh
 
 Check Route53 records. The External DNS makes its job
@@ -154,3 +154,27 @@ cd Infrastructure/k8s-tooling/cni
 
 Terminate the EC2's associated with EKS and execute kubectl get pods -n development -o wide
 Wait for the new nodes and check the new ips were associated
+
+12) Get nodegroups, delete them and add the spot instances ones.
+
+eksctl get nodegroups --cluster eks-acg
+
+Add spot instances
+
+cd hands-on-with-amazon-eks/Infrastructure/eksctl/02-spot-instances
+
+eksctl create nodegroup -f cluster.yaml
+
+To see on the terminal all the nodegroups, execute
+
+eksctl get nodegroups --cluster eks-acg (both are unmanaged which means that you have to create the ALB. Managed groups are taken care by aws including the ALB, but not fargate yet)
+
+On the AWS console you will not be able to see the nodegroups yet
+
+Delete the normal (on demand) pods
+
+eksctl delete nodegroup --cluster eks-acg eks-node-group
+
+Check again all the nodegroup
+
+eksctl get nodegroups --cluster eks-acg
