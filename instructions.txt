@@ -178,3 +178,17 @@ eksctl delete nodegroup --cluster eks-acg eks-node-group
 Check again all the nodegroup
 
 eksctl get nodegroups --cluster eks-acg
+
+Create managed nodes
+
+cd hands-on-with-amazon-eks/Infrastructure/eksctl/03-managed-nodes
+
+eksctl create nodegroup -f cluster.yaml
+
+Check again all the nodegroup
+
+eksctl get nodegroups --cluster eks-acg
+
+Delete nodegroup with spot instances
+
+eksctl delete nodegroup --cluster eks-acg eks-node-group-spot-instances
