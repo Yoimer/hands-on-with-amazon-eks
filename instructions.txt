@@ -192,3 +192,13 @@ eksctl get nodegroups --cluster eks-acg
 Delete nodegroup with spot instances
 
 eksctl delete nodegroup --cluster eks-acg eks-node-group-spot-instances
+
+13) Install node termination handler for spot instances on EKS
+
+helm repo add eks https://aws.github.io/eks-charts
+
+helm install aws-node-termination-handler --namespace kube-system eks/aws-node-termination-handler
+
+Check aws-node-termination-handler-**** pods
+
+kubectl get pods -n kube-system
