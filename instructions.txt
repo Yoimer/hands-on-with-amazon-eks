@@ -202,3 +202,29 @@ helm install aws-node-termination-handler --namespace kube-system eks/aws-node-t
 Check aws-node-termination-handler-**** pods
 
 kubectl get pods -n kube-system
+
+14) Fargate (app will go to fargate, kubernetes tooling to spot instances)
+
+Create Fargate Profile
+
+cd hands-on-with-amazon-eks/Infrastructure/eksctl/04-fargate
+
+eksctl create fargateprofile -f cluster.yaml
+
+After completing the fargate profile creation, go to the AWS console, compute and fargate profile
+
+Check the namespace, it should be development
+
+To confirm the fargate pods, execute:
+
+kubectl get pods -n development -o wide 
+You won't see fargate node yet
+You have to take down all the current pods which were creating on the runtime face
+Fargate nodes are in the scheduling face
+
+kubectl get pods -n development | grep Running | awk '{print $1}'
+
+kubectl delete pods -n development `kubectl get pods -n development | grep Running | awk '{print $1}'`
+
+Check all the new Fargate nodes
+kubectl get pods -n development -o wide
