@@ -13,9 +13,11 @@ vpc:
 
 managedNodeGroups:
   - name: eks-node-group-managed-nodes
-    instanceType: t3.medium
     desiredCapacity: 3
     privateNetworking: true
+    spot: true
+    instanceTypes: ["t3.medium", "t3a.medium"]
+    labels: { lifecycle: Ec2Spot }
 
 fargateProfiles:
   - name: acg-fargate-development

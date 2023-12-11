@@ -11,13 +11,12 @@ vpc:
   nat:
     gateway: HighlyAvailable
 
-nodeGroups:
-  - name: eks-node-group-spot-instances
+managedNodeGroups:
+  - name: eks-node-group-managed-nodes
     desiredCapacity: 3
     privateNetworking: true
-    instancesDistribution:
-      instanceTypes: ["t3.medium", "t3a.medium"]
-      onDemandPercentageAboveBaseCapacity: 0
+    spot: true
+    instanceTypes: ["t3.medium", "t3a.medium"]
     labels: { lifecycle: Ec2Spot }
 
 availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"] # This is required since in us-east-1 only 2 subnets are created by default (https://eksctl.io/usage/vpc-networking/)
