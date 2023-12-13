@@ -250,3 +250,17 @@ Git push
 ecr and build 
 
 aws cloudformation deploy --stack-name inventory-api-codecommit-repo --template-file cicd-2-ecr-and-build.yaml --parameter-overrides AppName=inventory-api --capabilities CAPABILITY_IAM
+
+16) Pipeline
+
+cd hands-on-with-amazon-eks/Infrastructure/cloudformation/cicd
+
+aws cloudformation deploy --stack-name inventory-api-codecommit-repo --template-file cicd-3-automatic-build.yaml --parameter-overrides AppName=inventory-api --capabilities CAPABILITY_IAM
+
+cd inventory-api/version
+
+change MINOR to 1
+
+git add, git commit and git push
+
+check Pipeline
