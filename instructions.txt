@@ -228,3 +228,25 @@ kubectl delete pods -n development `kubectl get pods -n development | grep Runni
 
 Check all the new Fargate nodes
 kubectl get pods -n development -o wide
+
+15) Source Code and Building
+
+cd hands-on-with-amazon-eks/Infrastructure/cloudformation/cicd
+
+codecommit inventory-api
+
+aws cloudformation deploy --stack-name inventory-api-codecommit-repo --template-file cicd-1-codecommit.yaml --parameter-overrides AppName=inventory-api
+
+cd hands-on-with-amazon-eks/inventory-api
+
+git add .
+
+git commit -m "Initial commit"
+
+Generate the ssh key on your laptop and save it on IAM
+
+Git push
+
+ecr and build 
+
+aws cloudformation deploy --stack-name inventory-api-codecommit-repo --template-file cicd-2-ecr-and-build.yaml --parameter-overrides AppName=inventory-api --capabilities CAPABILITY_IAM
