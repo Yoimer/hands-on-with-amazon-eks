@@ -264,3 +264,18 @@ change MINOR to 1
 git add, git commit and git push
 
 check Pipeline
+
+17) Deployment
+
+cd hands-on-with-amazon-eks/Infrastructure/cloudformation/cicd
+
+aws cloudformation deploy --stack-name inventory-api-codecommit-repo --template-file cicd-4-deploy-development.yaml --parameter-overrides AppName=inventory-api --capabilities CAPABILITY_IAM
+
+Add inventory-api-codecommit-repo-IamServiceRole-**** to the eks configmap
+
+eksctl create iamidentitymapping --cluster eks-acg --username inventory-api-deployment \
+--group system:masters --arn arn:aws:iam::127431640223:role/inventory-api-codecommit-repo-IamServiceRole-qImXUmxwE4Fs
+
+confirm the role was added
+
+kubectl get cm -n kube-system aws-auth -o yaml
