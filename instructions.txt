@@ -231,6 +231,10 @@ kubectl get pods -n development -o wide
 
 15) Source Code and Building
 
+Generate your ssh key on your laptop and upload it to codecommit
+
+https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-ssh-unixes.html
+
 cd hands-on-with-amazon-eks/Infrastructure/cloudformation/cicd
 
 codecommit inventory-api
@@ -274,7 +278,7 @@ aws cloudformation deploy --stack-name inventory-api-codecommit-repo --template-
 Add inventory-api-codecommit-repo-IamServiceRole-**** to the eks configmap
 
 eksctl create iamidentitymapping --cluster eks-acg --username inventory-api-deployment \
---group system:masters --arn arn:aws:iam::127431640223:role/inventory-api-codecommit-repo-IamServiceRole-qImXUmxwE4Fs
+--group system:masters --arn arn:aws:iam::252749286838:role/inventory-api-codecommit-repo-IamServiceRole-iwOYnQuzIK45
 
 confirm the role was added
 

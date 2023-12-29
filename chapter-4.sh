@@ -8,11 +8,11 @@ echo "***************************************************"
 echo "--- This could take around 10 minutes"
 
     # Create Spot Instances
-    ( cd Infrastructure/eksctl/02-spot-instances && eksctl create nodegroup -f cluster.yaml )
-    eksctl get nodegroups --cluster eks-acg
+    # ( cd Infrastructure/eksctl/02-spot-instances && eksctl create nodegroup -f cluster.yaml )
+    # eksctl get nodegroups --cluster eks-acg
 
     # Delete previous nodegroup
-    eksctl delete nodegroup --cluster eks-acg eks-node-group
+    # eksctl delete nodegroup --cluster eks-acg eks-node-group
 
     # Termination Handler
     helm repo add eks https://aws.github.io/eks-charts
