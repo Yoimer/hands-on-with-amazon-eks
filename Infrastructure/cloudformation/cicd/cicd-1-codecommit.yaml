@@ -11,5 +11,5 @@ Resources:
       RepositoryDescription: !Sub 'The ${AppName} repository'
       RepositoryName: !Sub 'bookstore.${AppName}'
 Outputs:
-  CloneUrlHttp:
-    Value: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+  CloneUrlSsh:
+    Value: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
