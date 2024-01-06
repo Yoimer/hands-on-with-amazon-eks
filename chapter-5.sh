@@ -146,42 +146,42 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output t
         
 # # # Automatic Building
 
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name inventory-api-codecommit-repo \
-#             --template-file cicd-3-automatic-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=inventory-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name resource-api-codecommit-repo \
-#             --template-file cicd-3-automatic-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=resource-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name renting-api-codecommit-repo \
-#             --template-file cicd-3-automatic-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=renting-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name clients-api-codecommit-repo \
-#             --template-file cicd-3-automatic-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=clients-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name front-end-codecommit-repo \
-#             --template-file cicd-3-automatic-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=front-end ) &
-#     wait
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name inventory-api-codecommit-repo \
+            --template-file cicd-3-automatic-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=inventory-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name resource-api-codecommit-repo \
+            --template-file cicd-3-automatic-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=resource-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name renting-api-codecommit-repo \
+            --template-file cicd-3-automatic-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=renting-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name clients-api-codecommit-repo \
+            --template-file cicd-3-automatic-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=clients-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name front-end-codecommit-repo \
+            --template-file cicd-3-automatic-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=front-end ) &
+    wait
 
 # # Add the IAM Role to the aws-auth Config Map
 #     inventory_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack inventory-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
