@@ -8,6 +8,10 @@ echo "********* CHAPTER 5 - STARTED AT $(date) **********"
 echo "***************************************************"
 echo "--- This could take around 20 minutes"
 
+echo "***************************************************"
+echo "********* Creating Codecommit Repo for each app ***"
+echo "***************************************************"
+
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text | xargs)
 
 # Create the CodeCommit Repository for each app
@@ -71,6 +75,11 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output t
     # echo ${base_codecommit_url/"https://"/"https://${codecommit_username_encoded}:${codecommit_password_encoded}@"} >> ~/.git-credentials
     
 
+
+echo "***************************************************"
+echo "********* Initial Push to the Git Repositories ***"
+echo "***************************************************"
+
 # Initial Push to the Git Repositories
     ( cd ./inventory-api && \
         git init && \
@@ -101,10 +110,16 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output t
         git remote add origin ${front_end_repo_url} && \
         git add . && \
         git commit -m "Initial Commit" && \
-        git push origin master )
+        git push origin master ) &
+
+    wait
 
 
-# # Install ECR and CodeBuild jobs
+echo "***************************************************"
+echo "********* Install ECR and CodeBuild jobs **********"
+echo "***************************************************"
+
+# Install ECR and CodeBuild jobs
 
     ( cd Infrastructure/cloudformation/cicd && \
         aws cloudformation deploy \
@@ -143,8 +158,12 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output t
                 AppName=front-end ) &
 
     wait
-        
-# # # Automatic Building
+
+echo "***************************************************"
+echo "********* Automatic Building, CodePipeline *********"
+echo "***************************************************"
+
+# #Automatic Building
 
     ( cd Infrastructure/cloudformation/cicd && \
         aws cloudformation deploy \
