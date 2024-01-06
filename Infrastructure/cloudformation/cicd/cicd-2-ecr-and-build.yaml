@@ -86,10 +86,10 @@ Resources:
       ServiceRole: !Ref 'IamServiceRole'
       Source:
         Type: CODECOMMIT
-        Location: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+        Location: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
         BuildSpec: !Ref 'BuildSpecLocation'
       SourceVersion: !Sub 'refs/heads/${CICDBranch}'
       TimeoutInMinutes: 60
 Outputs:
-  CloneUrlHttp:
-    Value: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+  CloneUrlSsh:
+    Value: !GetAtt 'CodeCommitRepository.CloneUrlSsh'

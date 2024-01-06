@@ -1,7 +1,7 @@
-./scripts-by-chapter/chapter-1.sh
-./scripts-by-chapter/chapter-2.sh
-./scripts-by-chapter/chapter-3.sh
-./scripts-by-chapter/chapter-4.sh
+# ./scripts-by-chapter/chapter-1.sh
+# ./scripts-by-chapter/chapter-2.sh
+# ./scripts-by-chapter/chapter-3.sh
+# ./scripts-by-chapter/chapter-4.sh
 
 echo "***************************************************"
 echo "********* CHAPTER 5 - STARTED AT $(date) **********"
@@ -106,43 +106,43 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output t
 
 # # Install ECR and CodeBuild jobs
 
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name inventory-api-codecommit-repo \
-#             --template-file cicd-2-ecr-and-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=inventory-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name resource-api-codecommit-repo \
-#             --template-file cicd-2-ecr-and-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=resource-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name renting-api-codecommit-repo \
-#             --template-file cicd-2-ecr-and-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=renting-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name clients-api-codecommit-repo \
-#             --template-file cicd-2-ecr-and-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=clients-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name front-end-codecommit-repo \
-#             --template-file cicd-2-ecr-and-build.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=front-end ) &
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name inventory-api-codecommit-repo \
+            --template-file cicd-2-ecr-and-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=inventory-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name resource-api-codecommit-repo \
+            --template-file cicd-2-ecr-and-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=resource-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name renting-api-codecommit-repo \
+            --template-file cicd-2-ecr-and-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=renting-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name clients-api-codecommit-repo \
+            --template-file cicd-2-ecr-and-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=clients-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name front-end-codecommit-repo \
+            --template-file cicd-2-ecr-and-build.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=front-end ) &
 
-#     wait
+    wait
         
 # # # Automatic Building
 

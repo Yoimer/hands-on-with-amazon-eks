@@ -358,5 +358,5 @@ Resources:
               Region: !Ref 'AWS::Region'
               Namespace: BuildVariables
 Outputs:
-  CloneUrlHttp:
-    Value: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+  CloneUrlSsh:
+    Value: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
