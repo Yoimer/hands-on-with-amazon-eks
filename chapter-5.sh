@@ -203,102 +203,101 @@ echo "***************************************************"
     wait
 
 # # Add the IAM Role to the aws-auth Config Map
-#     inventory_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack inventory-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
-#     renting_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack renting-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
-#     resource_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack resource-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
-#     clients_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack clients-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
-#     front_end_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack front-end-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
+    inventory_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack inventory-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
+    renting_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack renting-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
+    resource_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack resource-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
+    clients_api_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack clients-api-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
+    front_end_codebuild_iam_role_name=$(aws cloudformation describe-stack-resources --stack front-end-codecommit-repo --query "StackResources[?LogicalResourceId=='IamServiceRole'].PhysicalResourceId" --output text | xargs)
 
-#     inventory_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${inventory_api_codebuild_iam_role_name}"
-#     renting_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${renting_api_codebuild_iam_role_name}"
-#     resource_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${resource_api_codebuild_iam_role_name}"
-#     clients_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${clients_api_codebuild_iam_role_name}"
-#     front_end_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${front_end_codebuild_iam_role_name}"
+    inventory_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${inventory_api_codebuild_iam_role_name}"
+    renting_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${renting_api_codebuild_iam_role_name}"
+    resource_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${resource_api_codebuild_iam_role_name}"
+    clients_api_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${clients_api_codebuild_iam_role_name}"
+    front_end_codebuild_iam_role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${front_end_codebuild_iam_role_name}"
 
-#     kubectl get cm -n kube-system aws-auth -o yaml
+    kubectl get cm -n kube-system aws-auth -o yaml
 
-#     eksctl create iamidentitymapping --cluster eks-acg --arn ${inventory_api_codebuild_iam_role_arn} --username inventory-api-deployment --group system:masters
-#     eksctl create iamidentitymapping --cluster eks-acg --arn ${renting_api_codebuild_iam_role_arn} --username renting-api-deployment --group system:masters
-#     eksctl create iamidentitymapping --cluster eks-acg --arn ${resource_api_codebuild_iam_role_arn} --username resource-api-deployment --group system:masters
-#     eksctl create iamidentitymapping --cluster eks-acg --arn ${clients_api_codebuild_iam_role_arn} --username clients-api-deployment --group system:masters
-#     eksctl create iamidentitymapping --cluster eks-acg --arn ${front_end_codebuild_iam_role_arn} --username front-end-deployment --group system:masters
+    eksctl create iamidentitymapping --cluster eks-acg --arn ${inventory_api_codebuild_iam_role_arn} --username inventory-api-deployment --group system:masters
+    eksctl create iamidentitymapping --cluster eks-acg --arn ${renting_api_codebuild_iam_role_arn} --username renting-api-deployment --group system:masters
+    eksctl create iamidentitymapping --cluster eks-acg --arn ${resource_api_codebuild_iam_role_arn} --username resource-api-deployment --group system:masters
+    eksctl create iamidentitymapping --cluster eks-acg --arn ${clients_api_codebuild_iam_role_arn} --username clients-api-deployment --group system:masters
+    eksctl create iamidentitymapping --cluster eks-acg --arn ${front_end_codebuild_iam_role_arn} --username front-end-deployment --group system:masters
 
-#     kubectl get cm -n kube-system aws-auth -o yaml
+    kubectl get cm -n kube-system aws-auth -o yaml
 
-# # Automatic Deployment to Development Environment
+# Automatic Deployment to Development Environment
 
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name inventory-api-codecommit-repo \
-#             --template-file cicd-4-deploy-development.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=inventory-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name resource-api-codecommit-repo \
-#             --template-file cicd-4-deploy-development.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=resource-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name renting-api-codecommit-repo \
-#             --template-file cicd-4-deploy-development.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=renting-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name clients-api-codecommit-repo \
-#             --template-file cicd-4-deploy-development.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=clients-api ) & \
-#     ( cd Infrastructure/cloudformation/cicd && \
-#         aws cloudformation deploy \
-#             --stack-name front-end-codecommit-repo \
-#             --template-file cicd-4-deploy-development.yaml \
-#             --capabilities CAPABILITY_IAM \
-#             --parameter-overrides \
-#                 AppName=front-end ) &
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name inventory-api-codecommit-repo \
+            --template-file cicd-4-deploy-development.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=inventory-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name resource-api-codecommit-repo \
+            --template-file cicd-4-deploy-development.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=resource-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name renting-api-codecommit-repo \
+            --template-file cicd-4-deploy-development.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=renting-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name clients-api-codecommit-repo \
+            --template-file cicd-4-deploy-development.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=clients-api ) & \
+    ( cd Infrastructure/cloudformation/cicd && \
+        aws cloudformation deploy \
+            --stack-name front-end-codecommit-repo \
+            --template-file cicd-4-deploy-development.yaml \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+                AppName=front-end ) &
 
-#     wait
+    wait
 
 # # Updating Development
-#     ( cd ./inventory-api && \
-#         sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
-#         git add . && \
-#         git commit -m "From Helm V4 to Helm V5" && \
-#         git push origin master
-#     ) & \
-#     ( cd ./resource-api && \
-#         sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
-#         git add . && \
-#         git commit -m "From Helm V4 to Helm V5" && \
-#         git push origin master
-#     ) & \
-#     ( cd ./clients-api && \
-#         sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
-#         git add . && \
-#         git commit -m "From Helm V4 to Helm V5" && \
-#         git push origin master
-#     ) & \
-#     ( cd ./renting-api && \
-#         sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
-#         git add . && \
-#         git commit -m "From Helm V4 to Helm V5" && \
-#         git push origin master
-#     ) & \
-#     ( cd ./front-end && \
-#         sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
-#         git add . && \
-#         git commit -m "From Helm V4 to Helm V5" && \
-#         git push origin master
-#     ) &
+    ( cd ./inventory-api && \
+        sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
+        git add . && \
+        git commit -m "From Helm V4 to Helm V5" && \
+        git push origin master
+    ) & \
+    ( cd ./resource-api && \
+        sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
+        git add . && \
+        git commit -m "From Helm V4 to Helm V5" && \
+        git push origin master
+    ) & \
+    ( cd ./clients-api && \
+        sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
+        git add . && \
+        git commit -m "From Helm V4 to Helm V5" && \
+        git push origin master
+    ) & \
+    ( cd ./renting-api && \
+        sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
+        git add . && \
+        git commit -m "From Helm V4 to Helm V5" && \
+        git push origin master
+    ) & \
+    ( cd ./front-end && \
+        sed -i 's/helm-v4/helm-v5/' infra/codebuild/deployment/buildspec.yml && \
+        git add . && \
+        git commit -m "From Helm V4 to Helm V5" && \
+        git push origin master
+    ) &
 
-#     wait
-
+    wait
 
 # #  Create the Production DynamoDB Tables
 #     ( cd ./clients-api/infra/cloudformation && ./create-dynamodb-table.sh production ) & \

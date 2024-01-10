@@ -121,7 +121,7 @@ Resources:
       ServiceRole: !Ref 'IamServiceRole'
       Source:
         Type: CODECOMMIT
-        Location: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+        Location: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
         BuildSpec: !Ref 'BuildSpecLocation'
       SourceVersion: !Sub 'refs/heads/${CICDBranch}'
       TimeoutInMinutes: 60
@@ -152,7 +152,7 @@ Resources:
       ServiceRole: !Ref 'IamServiceRole'
       Source:
         Type: CODECOMMIT
-        Location: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+        Location: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
         BuildSpec: !Ref 'DevelopDeploySpecLocation'
       SourceVersion: !Sub 'refs/heads/${CICDBranch}'
       TimeoutInMinutes: 60
@@ -183,7 +183,7 @@ Resources:
       ServiceRole: !Ref 'IamServiceRole'
       Source:
         Type: CODECOMMIT
-        Location: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+        Location: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
         BuildSpec: !Ref 'ProdDeploySpecLocation'
       SourceVersion: refs/heads/master
       TimeoutInMinutes: 60
@@ -483,5 +483,5 @@ Resources:
               Region: !Ref 'AWS::Region'
               Namespace: DeployProductionVariables
 Outputs:
-  CloneUrlHttp:
-    Value: !GetAtt 'CodeCommitRepository.CloneUrlHttp'
+  CloneUrlSsh:
+    Value: !GetAtt 'CodeCommitRepository.CloneUrlSsh'
